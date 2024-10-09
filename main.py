@@ -65,7 +65,7 @@ order_insert_query = """
 order_date_start = datetime.now() - timedelta(days=365 * 5)
 orders_data = [
     (order_date_start + timedelta(days=random.randint(0, 365 * 5)), random.choice(clients_data)[0], random.randint(1, 100))
-    for _ in range(2000)
+    for _ in range(20000)
 ]
 # Use chunks to avoid memory issues
 chunk_size = 500
