@@ -27,7 +27,7 @@ connection = mysql.connector.connect(
 cursor = connection.cursor()
 fake = Faker()
 
-# Insert 100 rows into opt_clients
+# Insert 1,000,000 rows into opt_clients
 print("Inserting into opt_clients...")
 client_insert_query = """
     INSERT INTO opt_clients (id, name, surname, email, phone, address, status) 
@@ -35,13 +35,13 @@ client_insert_query = """
 """
 clients_data = [
     (str(uuid.uuid4()), fake.first_name(), fake.last_name(), fake.email(), fake.phone_number(), fake.address(), random.choice(['active', 'inactive']))
-    for _ in range(100)
+    for _ in range(100000)
 ]
 cursor.executemany(client_insert_query, clients_data)
 connection.commit()
 print("Inserted into opt_clients.")
 
-# Insert 100 rows into opt_products
+# Insert 1,000 rows into opt_products
 print("Inserting into opt_products...")
 product_insert_query = """
     INSERT INTO opt_products (product_name, product_category, description) 
@@ -50,13 +50,13 @@ product_insert_query = """
 categories = ['Category1', 'Category2', 'Category3', 'Category4', 'Category5']
 products_data = [
     (fake.word(), random.choice(categories), fake.text())
-    for _ in range(100)
+    for _ in range(1000)
 ]
 cursor.executemany(product_insert_query, products_data)
 connection.commit()
 print("Inserted into opt_products.")
 
-# Insert 2000 rows into opt_orders
+# Insert 10,000,000 rows into opt_orders
 print("Inserting into opt_orders...")
 order_insert_query = """
     INSERT INTO opt_orders (order_date, client_id, product_id) 
@@ -64,11 +64,11 @@ order_insert_query = """
 """
 order_date_start = datetime.now() - timedelta(days=365 * 5)
 orders_data = [
-    (order_date_start + timedelta(days=random.randint(0, 365 * 5)), random.choice(clients_data)[0], random.randint(1, 100))
-    for _ in range(2000)
+    (order_date_start + timedelta(days=random.randint(0, 365 * 5)), random.choice(clients_data)[0], random.randint(1, 1000))
+    for _ in range(1000000)
 ]
 # Use chunks to avoid memory issues
-chunk_size = 500
+chunk_size = 10000
 for i in range(0, len(orders_data), chunk_size):
     cursor.executemany(order_insert_query, orders_data[i:i + chunk_size])
     connection.commit()
