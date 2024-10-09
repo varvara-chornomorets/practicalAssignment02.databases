@@ -5,6 +5,7 @@
 -- and year is 2024
 
 -- unoptimized query
+-- 10 secs
 select
     q.client_id,
     q.client_name,
@@ -52,6 +53,7 @@ order by
 
 create index idx_order_date on opt_orders(order_date);
 -- optimized query
+-- 6 secs
 with ranked_products as (
     select
         c.id as client_id,
